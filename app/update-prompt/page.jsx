@@ -24,10 +24,10 @@ const UpdatePrompt = () => {
       });
     };
 
-    promptId && getPromptDetails();
+    if (promptId) getPromptDetails();
   }, [promptId]);
 
-  const updatePromp = async (e) => {
+  const updatePrompt = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -36,9 +36,6 @@ const UpdatePrompt = () => {
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
         body: JSON.stringify({
           prompt: post.prompt,
           tag: post.tag,
@@ -55,39 +52,13 @@ const UpdatePrompt = () => {
     }
   };
 
-  const updatePromptEdit = async (e) =>{
-    e.preventDefault()
-    setIsSubmitting(true)
-
-    if(!promptId ) return alert('Prompt ID not found')
-
-      try {
-        const response= await fetch(`/api/prompt/${promptId}`,
-          
-      {
-        method:'PATCH',
-        body:JSON.stringify({
-          prompt:post.prompt,
-          tag:post.tag
-        })
-      })
-      if(response.ok){
-        router.push('/')
-      }
-      } catch (error) {
-        console.log(error)
-      } finally{
-        setIsSubmitting(false)
-      }
-  }
-
   return (
     <Form
-      type='Izmenite'
+      type='Edit'
       post={post}
       setPost={setPost}
       submitting={submitting}
-      handleSubmit={updatePromptEdit}
+      handleSubmit={updatePrompt}
     />
   );
 };
