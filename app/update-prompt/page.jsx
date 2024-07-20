@@ -27,7 +27,7 @@ const UpdatePrompt = () => {
     promptId && getPromptDetails();
   }, [promptId]);
 
-  const updatePrompt = async (e) => {
+  const updatePromp = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
@@ -36,6 +36,9 @@ const UpdatePrompt = () => {
     try {
       const response = await fetch(`/api/prompt/${promptId}`, {
         method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           prompt: post.prompt,
           tag: post.tag,

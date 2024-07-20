@@ -75,7 +75,7 @@ const Feed = () => {
       <form className='relative w-full flex-center' onSubmit={handleFormSubmit}>
         <input
           type='text'
-          placeholder='Pretraži prema klučnoj reči'
+          placeholder='Pretraži prema ključnoj reči'
           value={searchText}
           onChange={handleSearchChange}
           required
