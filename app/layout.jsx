@@ -1,3 +1,4 @@
+"uce client"
 import Provider from "@components/Provider";
 import Nav from '@components/Nav';
 import '@styles/globals.css';

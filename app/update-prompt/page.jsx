@@ -1,6 +1,6 @@
 'use client';
 
-import React, { Suspense } from 'react';
+import React, { Suspense,useState,useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Form from '@components/Form';
 
