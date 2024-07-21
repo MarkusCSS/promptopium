@@ -21,7 +21,7 @@ const MyProfile = () => {
       };
 
       fetchPosts();
-  }, []);
+  }, [session?.user.id]);
     
     
   
