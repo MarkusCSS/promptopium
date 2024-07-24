@@ -23,12 +23,26 @@ const Feed = () => {
   // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
+  
   const [searchedResults, setSearchedResults] = useState([]);
+  
+  
   const fetchPosts = async () => {
-    const response = await fetch("/api/prompt",{cache:'no-store'});
-    const data = await response.json();
-
-    setAllPosts(data);
+    try {
+      const response = await fetch("/api/prompt", {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        cache: 'no-store'
+      });
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
+      console.log('Fetched posts:', data); // Debugging line
+      setAllPosts(data);
+    } catch (error) {
+      console.error('Fetch error:', error); // Debugging line
+    }
   };
   
 
