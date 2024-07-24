@@ -34,7 +34,7 @@ const Feed = () => {
         headers: {
           'Content-Type': 'application/json'
         },
-        cache: 'no-store'
+        cache: 'reload'
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();

@@ -3,14 +3,22 @@ import { connectToDB } from "@utils/database";
 
 export const GET = async (request, { params }) => {
     try {
-        await connectToDB()
+        console.log('Connecting to DB...');
+        await connectToDB();
+        console.log('Fetching prompt with ID:', params.id);
 
-        const prompt = await Prompt.findById(params.id).populate("creator")
-        if (!prompt) return new Response("Prompt Not Found", { status: 404 });
+        const prompt = await Prompt.findById(params.id).populate("creator");
+        
+        if (!prompt) {
+            console.log('Prompt not found with ID:', params.id);
+            return new Response("Prompt Not Found", { status: 404 });
+        }
 
-        return new Response(JSON.stringify(prompt), { status: 200 })
+        console.log('Prompt found:', prompt);
+        return new Response(JSON.stringify(prompt), { status: 200 });
 
     } catch (error) {
+        console.error('Error in GET request:', error); // Log the error details
         return new Response("Internal Server Error", { status: 500 });
     }
 }
