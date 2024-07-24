@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Form from "@components/Form";
 
+
 const UpdatePrompt = () => {
   const router = useRouter();
   const [post, setPost] = useState({ prompt: "", tag: "" });
