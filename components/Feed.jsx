@@ -25,9 +25,13 @@ const Feed = () => {
   const [searchTimeout, setSearchTimeout] = useState(null);
   
   const [searchedResults, setSearchedResults] = useState([]);
-  
+  useEffect(() => {
+    console.log('test')
+    fetchPosts();
+  }, []);
   
   const fetchPosts = async () => {
+    
     try {
       const response = await fetch("/api/prompt", {
         method: 'GET',
@@ -39,6 +43,7 @@ const Feed = () => {
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       console.log('Fetched posts:', data); // Debugging line
+      
       setAllPosts(data);
     } catch (error) {
       console.error('Fetch error:', error); // Debugging line
@@ -46,10 +51,7 @@ const Feed = () => {
   };
   
 
-  useEffect(() => {
-    
-    fetchPosts();
-  }, []);
+  
 
   const filterPrompts = (searchtext) => {
     const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
@@ -84,6 +86,7 @@ const Feed = () => {
   const handleFormSubmit = (e) =>{
     e.preventDefault();
   }
+ 
 
   return (
     <section className='feed'>
@@ -99,14 +102,18 @@ const Feed = () => {
       </form>
 
       {/* All Prompts */}
-      {searchText ? (
+      {/* {searchText ? (
         <PromptCardList
           data={searchedResults}
           handleTagClick={handleTagClick}
         />
       ) : (
         <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
-      )}
+      )} */}
+       <PromptCardList
+          data={allPosts}
+          handleTagClick={handleTagClick}
+        />
     </section>
   );
 };
