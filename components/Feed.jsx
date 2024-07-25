@@ -33,13 +33,7 @@ const Feed = () => {
   const fetchPosts = async () => {
     
     try {
-      const response = await fetch("/api/prompt", {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        cache: 'reload'
-      });
+      const response = await fetch("/api/prompt");
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
       console.log('Fetched posts:', data); // Debugging line
