@@ -3,7 +3,7 @@ const nextConfig = {
   reactStrictMode:true,
   swcMinify:true,
     experimental: {
-      missingSuspenseWithCSRBailout: false,
+    //  missingSuspenseWithCSRBailout: false,
      // appDir: true,
       serverComponentsExternalPackages: ["mongoose"],
     },
