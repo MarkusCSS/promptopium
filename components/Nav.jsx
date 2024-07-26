@@ -67,7 +67,7 @@ const Nav = () => {
                   type='button'
                   key={provider.name}
                   onClick={() => {
-                    signIn(provider.id);
+                    signIn(provider.id,{prompt:'select_account'});
                   }}
                   className='black_btn'
                 >
@@ -128,7 +128,7 @@ const Nav = () => {
                   type='button'
                   key={provider.name}
                   onClick={() => {
-                    signIn(provider.id);
+                    signIn(provider.id,{prompt:'select_account'});
                   }}
                   className='black_btn'
                 >
