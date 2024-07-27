@@ -9,7 +9,7 @@ const Home = () => {
         </h1>
         <p className="desc text-center">
            Mesto gde se mogu postaviti pitanja i dobiti 
-           odgovori. Odgovori koje želite da čujete. Vizija bez akcije je samo halucinacija.
+           odgovori. Odgovori koje (ne)želite da čujete. Vizija bez akcije je samo halucinacija.
         </p>
       <Feed/>
     </section>
