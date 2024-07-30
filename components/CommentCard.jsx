@@ -58,7 +58,7 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
             </>
           )}
           <p className='font-inter text-sm blue_gradient cursor-pointer' onClick={handleAddCommentClick}>
-            Dodaj komentar
+            Komentar
           </p>
         </div>
       </div>
