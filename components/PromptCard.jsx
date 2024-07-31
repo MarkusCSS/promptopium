@@ -3,14 +3,13 @@
 import { useState } from 'react'
 import Image from 'next/image'
 import { useSession } from 'next-auth/react'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 import CommentCard from './CommentCard'
 
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddComment }) => {
   const [copied, setCopied] = useState('')
   const { data: session } = useSession()
   const pathName = usePathname()
-  const router = useRouter()
   const [showAddCommentForm, setShowAddCommentForm] = useState(false)
   const [newComment, setNewComment] = useState('')
 
@@ -22,11 +21,14 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
   const handleAddCommentClick = () => {
     session ? setShowAddCommentForm(!showAddCommentForm) : alert('Prijavi se da postaviš komentar!')
-    
   }
-
+  
   const handleSubmitComment = () => {
-    handleAddComment(post._id, newComment) // poziva funkciju za dodavanje komentara
+    if (typeof handleAddComment === 'function') {
+      handleAddComment(post._id, newComment) // Poziva funkciju za dodavanje komentara
+    } else {
+      console.error('handleAddComment nije funkcija!')
+    }
     setNewComment('')
     setShowAddCommentForm(false)
   }
@@ -68,11 +70,11 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
         {post.prompt}
       </p>
       <div className='flex justify-between'>
-      <p className='font-inter text-sm red_gradient cursor-pointer' onClick={() => handleTagClick && handleTagClick(post.tag)}>
-        #{post.tag}
-      </p>
-      <p className='font-inter text-sm blue_gradient cursor-pointer w-full text-right' onClick={handleAddCommentClick}>
-         Komentar
+        <p className='font-inter text-sm red_gradient cursor-pointer' onClick={() => handleTagClick && handleTagClick(post.tag)}>
+          #{post.tag}
+        </p>
+        <p className='font-inter text-sm blue_gradient cursor-pointer w-full text-right' onClick={handleAddCommentClick}>
+          Komentar
         </p>
       </div>
       
@@ -86,19 +88,20 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
           </p>
         </div>
       )}
+      
       <div className="comments_section">
         {post.comments && post.comments.map((comment) => (
-          <CommentCard key={comment._id} comment={comment} handleReply={handleReply} handleEdit={handleEdit} handleDelete={handleDelete} handleAddComment={handleAddComment} />
+          <CommentCard key={comment._id} comment={comment} handleEdit={handleEdit} handleDelete={handleDelete} />
         ))}
         
         {showAddCommentForm && (
-          <div className="add_comment_form">
+          <div className='flex flex-col mt-6'>
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
               placeholder='Novi komentar...'
             />
-            <button onClick={handleSubmitComment}>Pošalji</button>
+            <button className='block bg-green-500' onClick={handleSubmitComment}>Pošalji</button>
           </div>
         )}
       </div>

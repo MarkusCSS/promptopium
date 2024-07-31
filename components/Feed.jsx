@@ -1,9 +1,9 @@
-"use client";
+'use client'
 
-import { useState, useEffect } from "react";
-import PromptCard from "./PromptCard";
+import { useState, useEffect } from 'react';
+import PromptCard from './PromptCard';
 
-const PromptCardList = ({ data, handleTagClick }) => {
+const PromptCardList = ({ data, handleTagClick, handleAddComment }) => {
   return (
     <div className='mt-16 prompt_layout'>
       {data.map((post) => (
@@ -11,6 +11,7 @@ const PromptCardList = ({ data, handleTagClick }) => {
           key={post._id}
           post={post}
           handleTagClick={handleTagClick}
+          handleAddComment={handleAddComment} // Prosledi handleAddComment
         />
       ))}
     </div>
@@ -19,21 +20,17 @@ const PromptCardList = ({ data, handleTagClick }) => {
 
 const Feed = () => {
   const [allPosts, setAllPosts] = useState([]);
-
-  // Search states
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
-  
   const [searchedResults, setSearchedResults] = useState([]);
+
   useEffect(() => {
-    console.log('test')
     fetchPosts();
   }, []);
-  
+
   const fetchPosts = async () => {
-    
     try {
-      const response = await fetch("/api/prompt", {
+      const response = await fetch('/api/prompt', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json'
@@ -42,19 +39,20 @@ const Feed = () => {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
-      console.log('Fetched posts:', data); // Debugging line
-      
       setAllPosts(data);
     } catch (error) {
-      console.error('Fetch error:', error); // Debugging line
+      console.error('Fetch error:', error);
     }
   };
-  
 
-  
+  const handleAddComment = (postId, comment) => {
+    // Vaša logika za dodavanje komentara
+    console.log('Post ID:', postId);
+    console.log('Comment:', comment);
+  };
 
   const filterPrompts = (searchtext) => {
-    const regex = new RegExp(searchtext, "i"); // 'i' flag for case-insensitive search
+    const regex = new RegExp(searchtext, 'i'); // 'i' flag for case-insensitive search
     return allPosts.filter(
       (item) =>
         (item.creator && regex.test(item.creator.username)) ||
@@ -67,7 +65,6 @@ const Feed = () => {
     clearTimeout(searchTimeout);
     setSearchText(e.target.value);
 
-    // debounce method
     setSearchTimeout(
       setTimeout(() => {
         const searchResult = filterPrompts(e.target.value);
@@ -78,15 +75,13 @@ const Feed = () => {
 
   const handleTagClick = (tagName) => {
     setSearchText(tagName);
-
     const searchResult = filterPrompts(tagName);
     setSearchedResults(searchResult);
   };
 
-  const handleFormSubmit = (e) =>{
+  const handleFormSubmit = (e) => {
     e.preventDefault();
-  }
- 
+  };
 
   return (
     <section className='feed'>
@@ -102,15 +97,11 @@ const Feed = () => {
       </form>
 
       {/* All Prompts */}
-      {searchText ? (
-        <PromptCardList
-          data={searchedResults}
-          handleTagClick={handleTagClick}
-        />
-      ) : (
-        <PromptCardList data={allPosts} handleTagClick={handleTagClick} />
-      )}
-       
+      <PromptCardList
+        data={searchText ? searchedResults : allPosts}
+        handleTagClick={handleTagClick}
+        handleAddComment={handleAddComment}
+      />
     </section>
   );
 };
