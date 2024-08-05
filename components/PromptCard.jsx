@@ -17,6 +17,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
   // Funkcija za preuzimanje komentara
   const fetchComments = useCallback(async () => {
+    
     try {
       const response = await fetch(`/api/comment?postId=${post._id}`);
       if (!response.ok) throw new Error('Failed to fetch comments');
@@ -31,8 +32,11 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
   }, [post._id]);
 
   useEffect(() => {
-    fetchComments();
-  }, [fetchComments]);
+    if(session){
+      fetchComments();
+    }
+    
+  }, [fetchComments,session]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
