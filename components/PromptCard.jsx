@@ -1,47 +1,72 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { useSession } from 'next-auth/react'
-import { usePathname } from 'next/navigation'
-import CommentCard from './CommentCard'
+import { useState, useEffect, useCallback } from 'react';
+import Image from 'next/image';
+import { useSession } from 'next-auth/react';
+import { usePathname } from 'next/navigation';
+import CommentCard from './CommentCard';
 
+// Komponenta za prikaz pojedinačnog posta
 const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddComment }) => {
-  const [copied, setCopied] = useState('')
-  const { data: session } = useSession()
-  const pathName = usePathname()
-  const [showAddCommentForm, setShowAddCommentForm] = useState(false)
-  const [newComment, setNewComment] = useState('')
+  const [copied, setCopied] = useState('');
+  const { data: session } = useSession();
+  const pathName = usePathname();
+  const [showAddCommentForm, setShowAddCommentForm] = useState(false);
+  const [newComment, setNewComment] = useState('');
+  const [comments, setComments] = useState([]);
 
-  const handleCopy = () => {
-    setCopied(post.prompt)
-    navigator.clipboard.writeText(post.prompt)
-    setTimeout(() => setCopied(''), 3000)
-  }
-
-  const handleAddCommentClick = () => {
-    session ? setShowAddCommentForm(!showAddCommentForm) : alert('Prijavi se da postaviš komentar!')
-  }
-  
-  const handleSubmitComment = () => {
-    if (typeof handleAddComment === 'function') {
-      handleAddComment(post._id, newComment) // Poziva funkciju za dodavanje komentara
-    } else {
-      console.error('handleAddComment nije funkcija!')
+  // Funkcija za preuzimanje komentara
+  const fetchComments = useCallback(async () => {
+    try {
+      const response = await fetch(`/api/comment?postId=${post._id}`);
+      if (!response.ok) throw new Error('Failed to fetch comments');
+      const data = await response.json();
+      setComments(data);
+      data.forEach(comment => {
+        console.log('Prompt ID:', comment.prompt._id);
+      });
+    } catch (error) {
+      console.error('Error fetching comments:', error);
     }
-    setNewComment('')
-    setShowAddCommentForm(false)
-  }
+  }, [post._id]);
+
+  useEffect(() => {
+    fetchComments();
+  }, [fetchComments]);
+
+  // Funkcija za kopiranje teksta
+  const handleCopy = () => {
+    setCopied(post.prompt);
+    navigator.clipboard.writeText(post.prompt);
+    setTimeout(() => setCopied(''), 3000);
+  };
+
+  // Funkcija za prikaz forme za dodavanje komentara
+  const handleAddCommentClick = () => {
+    session ? setShowAddCommentForm(!showAddCommentForm) : alert('PRIJAVI SE DA ČITAŠ ILI DA POSTAVLJAŠ KOMENTARE!');
+  };
+
+  // Funkcija za slanje novog komentara
+  const handleSubmitComment = async () => {
+    if (typeof handleAddComment === 'function') {
+      await handleAddComment(post._id, newComment);
+      fetchComments(); // Osveži komentare nakon dodavanja
+    } else {
+      console.error('handleAddComment nije funkcija!');
+    }
+    setNewComment('');
+    setShowAddCommentForm(false);
+  };
 
   if (!post.creator) {
-    return null
+    return null;
   }
 
   return (
     <div className='prompt_card'>
       <div className="flex justify-between items-start gap-5">
         <div className='flex-1 flex justify-start items-center cursor-pointer g-3'>
-          <Image 
+          <Image
             src={post.creator.image}
             alt='user_image'
             width={40}
@@ -77,7 +102,28 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
           Komentar
         </p>
       </div>
-      
+
+      {/* Prikaz liste komentara */}
+      <div className="comments-section">
+        {session &&   comments
+          .filter(comment => comment.prompt._id === post._id) // Filtriraj komentare
+          .map(comment => (
+            <CommentCard key={comment._id} comment={comment} />
+          ))}
+      </div>
+
+      {showAddCommentForm && (
+        <div className='flex flex-col mt-6'>
+          <textarea
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+            placeholder='Novi komentar...'
+          />
+          <button className='block bg-green-500' onClick={handleSubmitComment}>Pošalji</button>
+        </div>
+      )}
+
+      {/* Prikaz opcija za izmenu i brisanje */}
       {session?.user.id === post.creator._id && pathName === '/profile' && (
         <div className='mt-5 flex-center gap-4 border-t border-gray-100'>
           <p className='font-inter text-sm green_gradient cursor-pointer' onClick={handleEdit}>
@@ -88,25 +134,8 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
           </p>
         </div>
       )}
-      
-      <div className="comments_section">
-        {post.comments && post.comments.map((comment) => (
-          <CommentCard key={comment._id} comment={comment} handleEdit={handleEdit} handleDelete={handleDelete} />
-        ))}
-        
-        {showAddCommentForm && (
-          <div className='flex flex-col mt-6'>
-            <textarea
-              value={newComment}
-              onChange={(e) => setNewComment(e.target.value)}
-              placeholder='Novi komentar...'
-            />
-            <button className='block bg-green-500' onClick={handleSubmitComment}>Pošalji</button>
-          </div>
-        )}
-      </div>
     </div>
-  )
-}
+  );
+};
 
-export default PromptCard
+export default PromptCard;

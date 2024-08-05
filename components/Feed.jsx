@@ -1,6 +1,7 @@
-'use client'
+'use client';
 
 import { useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react'; // Importovanje useSession
 import PromptCard from './PromptCard';
 
 const PromptCardList = ({ data, handleTagClick, handleAddComment }) => {
@@ -19,6 +20,7 @@ const PromptCardList = ({ data, handleTagClick, handleAddComment }) => {
 };
 
 const Feed = () => {
+  const { data: session } = useSession(); // Dohvatanje sesije
   const [allPosts, setAllPosts] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [searchTimeout, setSearchTimeout] = useState(null);
@@ -45,10 +47,41 @@ const Feed = () => {
     }
   };
 
-  const handleAddComment = (postId, comment) => {
-    // Vaša logika za dodavanje komentara
-    console.log('Post ID:', postId);
-    console.log('Comment:', comment);
+  const handleAddComment = async (postId, comment) => {
+    if (!session) {
+      console.error('You must be logged in to add a comment');
+      return;
+    }
+
+    // Priprema podataka za slanje
+    const data = {
+      userId: session.user.id, // ID korisnika iz sesije
+      promptId: postId,
+      text: comment,
+    };
+
+    try {
+      // Slanje POST zahteva na server
+      const response = await fetch('/api/comment/new', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      // Provera odgovora
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      console.log('Comment successfully added:', result);
+      // Osvježavanje liste postova nakon dodavanja komentara
+      fetchPosts();
+    } catch (error) {
+      console.error('Error adding comment:', error);
+    }
   };
 
   const filterPrompts = (searchtext) => {
@@ -105,6 +138,5 @@ const Feed = () => {
     </section>
   );
 };
-
 
 export default Feed;

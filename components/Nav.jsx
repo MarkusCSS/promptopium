@@ -41,9 +41,13 @@ const Nav = () => {
       <div className='sm:flex hidden'>
         {session?.user ? (
           <div className='flex gap-3 md:gap-5'>
+            <Link href='/' className='black_btn'>
+              Početna
+            </Link>
             <Link href='/create-prompt' className='black_btn'>
               Kreiraj Objavu
             </Link>
+            
 
             <button type='button' onClick={handleSignOut} className='outline_btn'>
               OdjaviSe
@@ -93,6 +97,9 @@ const Nav = () => {
 
             {toggleDropdown && (
               <div className='dropdown'>
+                 <Link href='/' className='black_btn'>
+              Početna
+            </Link>
                 <Link
                   href='/profile'
                   className='dropdown_link'
@@ -100,6 +107,7 @@ const Nav = () => {
                 >
                   Moj Profil
                 </Link>
+               
                 <Link
                   href='/create-prompt'
                   className='dropdown_link'

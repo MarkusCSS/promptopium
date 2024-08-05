@@ -24,7 +24,7 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
   }
 
   return (
-    <div className='comment_card'>
+    <div className='comment_card my-4'>
       <div className="flex justify-between items-start gap-5">
         <div className='flex-1 flex justify-start items-center cursor-pointer g-3'>
           <Image 
@@ -43,7 +43,7 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
             </p>
           </div>
         </div>
-        <div className="comment_actions">
+        {/* <div className="comment_actions">
           <p className='font-inter text-sm green_gradient cursor-pointer' onClick={handleReply}>
             Odgovori
           </p>
@@ -60,7 +60,7 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
           <p className='font-inter text-sm blue_gradient cursor-pointer' onClick={handleAddCommentClick}>
             Komentar
           </p>
-        </div>
+        </div> */}
       </div>
       <p className='my-4 font-satoshi text-sm text-gray-700'>
         {comment.text}
