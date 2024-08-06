@@ -18,6 +18,7 @@ export const GET = async (request) => {
             },
         });
     } catch (error) {
+        console.error("Error fetching comments:", error);
         return new Response('Failed to fetch all comments', { status: 500 });
     }
 };
