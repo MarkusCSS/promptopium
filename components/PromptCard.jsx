@@ -15,7 +15,6 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
   const [newComment, setNewComment] = useState('');
   const [comments, setComments] = useState([]);
 
-  // Funkcija za preuzimanje komentara
   const fetchComments = useCallback(async () => {
     try {
       const response = await fetch(`/api/comment?postId=${post._id}`);
@@ -27,13 +26,21 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
     }
   }, [post._id]);
 
- 
   useEffect(() => {
-    
-      fetchComments();
-    
- 
-  }, [ fetchComments,post._id]);
+    let isMounted = true;
+
+    const fetchData = async () => {
+      await fetchComments();
+    };
+
+    if (isMounted) {
+      fetchData();
+    }
+
+    return () => {
+      isMounted = false;
+    };
+  }, [fetchComments]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
