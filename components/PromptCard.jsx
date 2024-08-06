@@ -27,20 +27,10 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
   }, [post._id]);
 
   useEffect(() => {
-    let isMounted = true;
-
-    const fetchData = async () => {
-      await fetchComments();
-    };
-
-    if (isMounted) {
-      fetchData();
-    }
-
-    return () => {
-      isMounted = false;
-    };
-  }, [fetchComments]);
+    const timeoutId = setTimeout(fetchComments,1000);
+    return ()=> clearTimeout(timeoutId);
+   
+  }, [fetchComments,post._id]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
@@ -107,7 +97,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
       {/* Prikaz liste komentara */}
       <div className="comments-section">
-        {  comments
+        {session &&   comments
           .filter(comment => comment.prompt && comment.prompt._id === post._id) 
           .map(comment => (
             <CommentCard key={comment._id} comment={comment} />
