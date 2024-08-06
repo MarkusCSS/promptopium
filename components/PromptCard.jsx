@@ -107,7 +107,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
       {/* Prikaz liste komentara */}
       <div className="comments-section">
-        {session &&   comments
+        {  comments
           .filter(comment => comment.prompt && comment.prompt._id === post._id) 
           .map(comment => (
             <CommentCard key={comment._id} comment={comment} />
