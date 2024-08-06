@@ -23,9 +23,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
       if (!response.ok) throw new Error('Failed to fetch comments');
       const data = await response.json();
       setComments(data);
-      data.forEach(comment => {
-        console.log('Prompt ID:', comment.prompt._id);
-      });
+      
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
