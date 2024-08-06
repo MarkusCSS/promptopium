@@ -28,8 +28,9 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
   }, [post._id]);
 
   useEffect(() => {
-    fetchComments(); // Uvek pozovi fetchComments kada se post promeni
-  }, [fetchComments, post._id]);
+  const timeoutId =  setTimeout(fetchComments,1500)
+    return () => clearTimeout(timeoutId);
+  }, [ fetchComments,post._id]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
@@ -61,6 +62,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
   return (
     <div className='prompt_card'>
+      <h2 className='text-center font-bold text-lg mb-4 text-red-800'>Tema</h2>
       <div className="flex justify-between items-start gap-5">
         <div className='flex-1 flex justify-start items-center cursor-pointer g-3'>
           <Image
@@ -91,14 +93,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
       <p className='my-4 font-satoshi text-sm text-gray-700'>
         {post.prompt}
       </p>
-      <div className='flex justify-between'>
-        <p className='font-inter text-sm red_gradient cursor-pointer' onClick={() => handleTagClick && handleTagClick(post.tag)}>
-          #{post.tag}
-        </p>
-        <p className='font-inter text-sm blue_gradient cursor-pointer w-full text-right' onClick={handleAddCommentClick}>
-          Komentar
-        </p>
-      </div>
+     
 
       {/* Prikaz liste komentara */}
       <div className="comments-section">
@@ -108,7 +103,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
             <CommentCard key={comment._id} comment={comment} />
           ))}
       </div>
-      
+
 
       {showAddCommentForm && (
         <div className='flex flex-col mt-6'>
@@ -132,6 +127,14 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
           </p>
         </div>
       )}
+       <div className='flex justify-between'>
+        <p className='font-inter text-sm red_gradient cursor-pointer' onClick={() => handleTagClick && handleTagClick(post.tag)}>
+          #{post.tag}
+        </p>
+        <p className='font-inter text-sm blue_gradient cursor-pointer w-full text-right' onClick={handleAddCommentClick}>
+          Komentar na temu
+        </p>
+      </div>
     </div>
   );
 };

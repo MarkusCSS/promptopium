@@ -24,7 +24,8 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
   }
 
   return (
-    <div className='comment_card my-4'>
+    <div className='comment_card border-y-2 py-1 my-4'>
+       <h2 className='text-center font-semibold text-base mb-4 text-green-800'>komentar</h2>
       <div className="flex justify-between items-start gap-5">
         <div className='flex-1 flex justify-start items-center cursor-pointer g-3'>
           <Image 
@@ -43,10 +44,8 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
             </p>
           </div>
         </div>
-        {/* <div className="comment_actions">
-          <p className='font-inter text-sm green_gradient cursor-pointer' onClick={handleReply}>
-            Odgovori
-          </p>
+        <div className="comment_actions">
+         
           {comment.isEditable && (
             <>
               <p className='font-inter text-sm orange_gradient cursor-pointer' onClick={handleEdit}>
@@ -57,10 +56,9 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
               </p>
             </>
           )}
-          <p className='font-inter text-sm blue_gradient cursor-pointer' onClick={handleAddCommentClick}>
-            Komentar
-          </p>
-        </div> */}
+          
+         
+        </div>
       </div>
       <p className='my-4 font-satoshi text-sm text-gray-700'>
         {comment.text}
@@ -85,6 +83,9 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
           ))}
         </div>
       )}
+       <p className='font-inter text-sm text-right mb-4 green_gradient cursor-pointer' onClick={handleReply}>
+            Odgovori na komentar
+          </p>
     </div>
   )
 }
