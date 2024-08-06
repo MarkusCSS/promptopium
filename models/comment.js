@@ -26,6 +26,9 @@ const CommentSchema = new Schema({
     },
 },{timestamps:true});
 
+CommentSchema.index({ creator: 1 });
+CommentSchema.index({ prompt: 1 });
+
 // Kreiramo i eksportujemo Comment model
 const Comment = models.Comment || model('Comment', CommentSchema);
 
