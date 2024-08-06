@@ -4,7 +4,15 @@ import Prompt from "@models/prompt";
 export const GET = async(request)=>{
     try {
         await connectToDB();
-        const prompts = await Prompt.find({}).populate('creator');
+        const prompts = await Prompt.find({})
+        .populate('creator') // Populacija kreatora prompta
+        .populate({
+            path: 'comments',
+            populate: {
+              path: 'creator', // Populacija kreatora komentara
+              model: 'User'
+            }
+          });
         return new Response(JSON.stringify(prompts), {status:200,
             headers: {
                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
@@ -14,6 +22,7 @@ export const GET = async(request)=>{
               },
         })
     } catch (error) {
+        console.error('Error fetching prompts:', error);
         return new Response('Failed to fecth all prompts', {status:500})
     }
 }

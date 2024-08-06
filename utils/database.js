@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 
+mongoose.set('strictPopulate', false);
 let isConnected = false;
 
 export const connectToDB = async () => {
