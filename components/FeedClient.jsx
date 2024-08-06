@@ -35,7 +35,7 @@ const FeedClient = ({ initialPosts=[] }) => {
 
   useEffect(() => {
    fetchPosts()
-  }, []);
+  }, [session]);
 
   const fetchPosts = async () => {
     try {
