@@ -27,13 +27,10 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
     }
   }, [post._id]);
 
-  setTimeout(()=>{
-    fetchComments();
-  },10000)
-  // useEffect(() => {
-  // fetchComments();
-   
-  // }, [fetchComments,post._id]);
+ 
+   useEffect(() => {
+    session &&  fetchComments();
+   }, [post._id,session,fetchComments]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
