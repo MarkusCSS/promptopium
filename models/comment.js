@@ -16,14 +16,7 @@ const CommentSchema = new Schema({
         ref: 'Prompt',
         required: [true, 'Prompt is required'],
     },
-    createdAt: {
-        type: Date,
-        default: Date.now,
-    },
-    updatedAt: {
-        type: Date,
-        default: Date.now,
-    },
+    
 },{timestamps:true});
 
 CommentSchema.index({ creator: 1 });
