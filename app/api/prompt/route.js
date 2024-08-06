@@ -6,13 +6,7 @@ export const GET = async(request)=>{
         await connectToDB();
         const prompts = await Prompt.find({})
         .populate('creator') // Populacija kreatora prompta
-        .populate({
-            path: 'comments',
-            populate: {
-              path: 'creator', // Populacija kreatora komentara
-              model: 'User'
-            }
-          });
+       
         return new Response(JSON.stringify(prompts), {status:200,
             headers: {
                 'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
