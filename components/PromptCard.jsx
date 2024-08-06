@@ -17,24 +17,19 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
   // Funkcija za preuzimanje komentara
   const fetchComments = useCallback(async () => {
-    
     try {
       const response = await fetch(`/api/comment?postId=${post._id}`);
       if (!response.ok) throw new Error('Failed to fetch comments');
       const data = await response.json();
       setComments(data);
-      
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   }, [post._id]);
 
   useEffect(() => {
-    if(session){
-      fetchComments();
-    }
-    
-  }, [fetchComments,session]);
+    fetchComments(); // Uvek pozovi fetchComments kada se post promeni
+  }, [fetchComments, post._id]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
@@ -108,7 +103,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
       {/* Prikaz liste komentara */}
       <div className="comments-section">
         {session &&   comments
-          .filter(comment => comment.prompt._id === post._id) // Filtriraj komentare
+          .filter(comment => comment.prompt._id === post._id) 
           .map(comment => (
             <CommentCard key={comment._id} comment={comment} />
           ))}
