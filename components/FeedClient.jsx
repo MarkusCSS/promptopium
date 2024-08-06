@@ -48,6 +48,7 @@ const FeedClient = ({ initialPosts=[] }) => {
       });
       if (!response.ok) throw new Error('Network response was not ok');
       const data = await response.json();
+      console.log(data)
       setAllPosts(data);
     } catch (error) {
       console.error('Fetch error:', error);
