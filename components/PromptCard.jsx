@@ -20,6 +20,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
       const response = await fetch(`/api/comment?postId=${post._id}`);
       if (!response.ok) throw new Error('Failed to fetch comments');
       const data = await response.json();
+      console.log(data)
       setComments(data);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -27,11 +28,10 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
   }, [post._id]);
 
   
-  useEffect(() => {
-    const timeoutId = setTimeout(fetchComments,1000);
-    return ()=> clearTimeout(timeoutId);
+  // useEffect(() => {
+  // fetchComments();
    
-  }, [fetchComments,post._id]);
+  // }, [fetchComments,post._id]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
