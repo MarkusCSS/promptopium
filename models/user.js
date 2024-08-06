@@ -15,10 +15,7 @@ const UserSchema = new Schema({
     image:{
         type: String,
     },
-    comments: [{ 
-        type: Schema.Types.ObjectId, 
-        ref: 'Comment' 
-      }]
+   
 },{timestamps:true});
 
 const User = models.User || model("User",UserSchema);
