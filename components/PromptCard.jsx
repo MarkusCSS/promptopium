@@ -29,11 +29,11 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
  
   useEffect(() => {
-    if(session){
+    
       fetchComments();
-    }
+    
  
-  }, [ fetchComments,post._id,session]);
+  }, [ fetchComments,post._id]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
