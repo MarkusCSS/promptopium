@@ -26,6 +26,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
     }
   }, [post._id]);
 
+  
   useEffect(() => {
     const timeoutId = setTimeout(fetchComments,1000);
     return ()=> clearTimeout(timeoutId);
