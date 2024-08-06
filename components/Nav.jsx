@@ -97,7 +97,8 @@ const Nav = () => {
 
             {toggleDropdown && (
               <div className='dropdown'>
-                 <Link href='/' className='black_btn'>
+                 <Link href='/' className='black_btn'
+                 onClick={() => setToggleDropdown(false)} >
               Početna
             </Link>
                 <Link
