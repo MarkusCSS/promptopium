@@ -27,8 +27,8 @@ const Feed = () => {
   const [searchedResults, setSearchedResults] = useState([]);
 
   useEffect(() => {
-  const timeoutId= setTimeout(fetchPosts,1000) 
-  return ()=> clearTimeout(timeoutId)
+ fetchPosts();
+ 
   }, []);
 
   const fetchPosts = async () => {
