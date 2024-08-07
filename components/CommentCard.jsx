@@ -24,7 +24,7 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
   }
 
   return (
-    <div className='comment_card border-y-2 py-1 my-4'>
+    <div className='comment_card border-y-2 py-1 my-4 bg-yellow-100'>
        <h2 className='text-center font-semibold text-base mb-4 text-green-800'>komentar</h2>
       <div className="flex justify-between items-start gap-5">
         <div className='flex-1 flex justify-start items-center cursor-pointer g-3'>
