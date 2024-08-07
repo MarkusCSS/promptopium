@@ -1,5 +1,3 @@
-'use client';
-
 import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { useSession } from 'next-auth/react';
@@ -20,17 +18,17 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
       const response = await fetch(`/api/comment?postId=${post._id}`);
       if (!response.ok) throw new Error('Failed to fetch comments');
       const data = await response.json();
-      console.log(data)
       setComments(data);
     } catch (error) {
       console.error('Error fetching comments:', error);
     }
   }, [post._id]);
 
- 
-   useEffect(() => {
-    session &&  fetchComments();
-   }, [post._id,session,fetchComments]);
+  useEffect(() => {
+    if (session) {
+      fetchComments();
+    }
+  }, [post._id, session, fetchComments]);
 
   // Funkcija za kopiranje teksta
   const handleCopy = () => {
@@ -59,6 +57,9 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
   if (!post.creator) {
     return null;
   }
+
+  // Filtriranje komentara koji pripadaju trenutnom promptu
+  const filteredComments = comments.filter(comment => comment.prompt._id === post._id);
 
   return (
     <div className='prompt_card'>
@@ -94,19 +95,12 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
         {post.prompt}
       </p>
      
-
       {/* Prikaz liste komentara */}
       <div className="comments-section">
-        {session &&   comments
-          .filter(comment => comment.prompt && comment.prompt._id === post._id) 
-          .map(comment => (
-            <CommentCard key={comment._id} comment={comment} />
-          ))}
+        {session && filteredComments.map(comment => (
+          <CommentCard key={comment._id} comment={comment} handleReply={handleAddComment} />
+        ))}
       </div>
-      
-
-
-
 
       {showAddCommentForm && (
         <div className='flex flex-col mt-6'>

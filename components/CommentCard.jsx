@@ -1,34 +1,37 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import Image from 'next/image'
+import { useState } from 'react';
+import Image from 'next/image';
 
 const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAddComment }) => {
-  const [showReplies, setShowReplies] = useState(false)
-  const [showAddCommentForm, setShowAddCommentForm] = useState(false)
-  const [newComment, setNewComment] = useState('')
+  const [showReplies, setShowReplies] = useState(false);
+  const [showAddCommentForm, setShowAddCommentForm] = useState(false);
+  const [newComment, setNewComment] = useState('');
 
   const handleToggleReplies = () => {
-    setShowReplies(!showReplies)
-  }
+    setShowReplies(!showReplies);
+  };
 
   const handleAddCommentClick = () => {
-    setShowAddCommentForm(!showAddCommentForm)
-  }
+    setShowAddCommentForm(!showAddCommentForm);
+  };
 
-  const handleSubmitComment = () => {
-
-   handleAddComment(comment._id, newComment)  // poziva funkciju za dodavanje komentara
-    setNewComment('')
-    setShowAddCommentForm(false)
-  }
+  const handleSubmitComment = async () => {
+    if (typeof handleAddComment === 'function') {
+      await handleAddComment(comment._id, newComment);
+      setNewComment('');
+      setShowAddCommentForm(false);
+    } else {
+      console.error('handleAddComment is not a function!');
+    }
+  };
 
   return (
     <div className='comment_card border-y-2 p-1 my-4 bg-yellow-50'>
-       <h2 className='text-center font-semibold text-base mb-4 text-green-800'>komentar</h2>
+      <h2 className='text-center font-semibold text-base mb-4 text-green-800'>Comment</h2>
       <div className="flex justify-between items-start gap-5">
         <div className='flex-1 flex justify-start items-center cursor-pointer g-3'>
-          <Image 
+          <Image
             src={comment.creator.image}
             alt='user_image'
             width={40}
@@ -45,19 +48,16 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
           </div>
         </div>
         <div className="comment_actions">
-         
           {comment.isEditable && (
             <>
               <p className='font-inter text-sm orange_gradient cursor-pointer' onClick={handleEdit}>
-                Izmeni
+                Edit
               </p>
               <p className='font-inter text-sm red_gradient cursor-pointer' onClick={handleDelete}>
-                Obriši
+                Delete
               </p>
             </>
           )}
-          
-         
         </div>
       </div>
       <p className='my-4 font-satoshi text-sm text-gray-700'>
@@ -68,26 +68,26 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
           <textarea
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            placeholder='Novi komentar...'
+            placeholder='New comment...'
           />
-          <button onClick={handleSubmitComment}>Pošalji</button>
+          <button onClick={handleSubmitComment}>Submit</button>
         </div>
       )}
       {comment.replies && comment.replies.length > 0 && (
         <div className="nested_comments">
           <button onClick={handleToggleReplies}>
-            {showReplies ? 'Sakrij Odgovore' : 'Prikaži Odgovore'}
+            {showReplies ? 'Hide Replies' : 'Show Replies'}
           </button>
           {showReplies && comment.replies.map((reply) => (
             <CommentCard key={reply._id} comment={reply} handleReply={handleReply} handleEdit={handleEdit} handleDelete={handleDelete} handleAddComment={handleAddComment} />
           ))}
         </div>
       )}
-       <p className='font-inter text-sm text-right mb-4 green_gradient cursor-pointer' onClick={handleReply}>
-            Odgovori na komentar
-          </p>
+      <p className='font-inter text-sm text-right mb-4 green_gradient cursor-pointer' onClick={handleAddCommentClick}>
+        Reply
+      </p>
     </div>
-  )
-}
+  );
+};
 
-export default CommentCard
+export default CommentCard;
