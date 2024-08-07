@@ -82,6 +82,7 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
             <CommentCard key={reply._id} comment={reply} handleReply={handleReply} handleEdit={handleEdit} handleDelete={handleDelete} handleAddComment={handleAddComment} />
           ))}
         </div>
+        
       )}
       <p className='font-inter text-sm text-right mb-4 green_gradient cursor-pointer' onClick={handleAddCommentClick}>
         Like
