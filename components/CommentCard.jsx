@@ -51,10 +51,10 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
           {comment.isEditable && (
             <>
               <p className='font-inter text-sm orange_gradient cursor-pointer' onClick={handleEdit}>
-                Edit
+                Izmeni
               </p>
               <p className='font-inter text-sm red_gradient cursor-pointer' onClick={handleDelete}>
-                Delete
+                Obrisi
               </p>
             </>
           )}
@@ -84,7 +84,7 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
         </div>
       )}
       <p className='font-inter text-sm text-right mb-4 green_gradient cursor-pointer' onClick={handleAddCommentClick}>
-        Reply
+        Like
       </p>
     </div>
   );
