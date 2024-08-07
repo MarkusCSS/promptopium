@@ -7,7 +7,7 @@ export const GET = async (request, { params }) => {
         await connectToDB();
         console.log('Fetching prompt with ID:', params.id);
 
-        const prompt = await Prompt.findById(params.id).populate("creator").populate("comments");
+        const prompt = await Prompt.findById(params.id).populate("creator");
         
         if (!prompt) {
             console.log('Prompt not found with ID:', params.id);
