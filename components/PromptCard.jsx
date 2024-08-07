@@ -106,6 +106,7 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
       
 
 
+
       {showAddCommentForm && (
         <div className='flex flex-col mt-6'>
           <textarea
