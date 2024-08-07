@@ -97,12 +97,23 @@ const PromptCard = ({ post, handleTagClick, handleEdit, handleDelete, handleAddC
 
       {/* Prikaz liste komentara */}
       <div className="comments-section">
-        {session &&   comments
-          .filter(comment => comment.prompt && comment.prompt._id === post._id) 
-          .map(comment => (
-            <CommentCard key={comment._id} comment={comment} />
-          ))}
-      </div>
+  {session && comments
+    .filter(comment => {
+      console.log('Comment being checked:', comment);
+      if (!comment.prompt) {
+        console.log('Comment without prompt:', comment);
+        return false;
+      }
+      if (comment.prompt._id !== post._id) {
+        console.log('Comment with different prompt ID:', comment);
+        return false;
+      }
+      return true;
+    })
+    .map(comment => (
+      <CommentCard key={comment._id} comment={comment} />
+    ))}
+</div>
 
 
       {showAddCommentForm && (
