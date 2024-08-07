@@ -9,7 +9,7 @@ import '@styles/globals.css';
 const RootLayout = ({children}) => {
   return (
     <html lang='en'>
-      <link rel="icon" href="./images/logo.svg" />
+      <link rel="icon" href="images/logo.svg" />
       <title>Tripoteka</title>
       <body>
       <Provider>
