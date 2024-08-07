@@ -15,6 +15,7 @@ export async function getServerSideProps() {
     console.error('Error fetching posts:', error);
     return { props: { initialPosts: [] } };
   }
+  
 }
 
 export default Feed;
