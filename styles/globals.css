@@ -157,7 +157,7 @@ animation: rotate 2s linear forwards;
 
 /* Nav Component */
 .logo_text {
-  @apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide;
+  @apply max-sm:hidden font-satoshi font-semibold text-lg text-black tracking-wide h-full;
 }
 
 .dropdown {

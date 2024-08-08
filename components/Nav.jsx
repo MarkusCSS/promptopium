@@ -26,16 +26,19 @@ const Nav = () => {
 
   return (
     <nav className='flex-between w-full mb-16 pt-3'>
-      <Link href='/' className='flex gap-2 flex-center'>
-        <Image
-          src='/assets/images/logo.png'
-          alt='logo'
-          width={60}
-          height={60}
-          className='object-contain rounded'
-        />
-        <p className='logo_text'>Tripoteka</p>
-      </Link>
+      <Link href='/' className='flex gap-2 rounded-md items-center justify-center'>
+  <div className='flex items-center justify-center relative  w-10 h-10 md:w-12 md:h-12 lg:w-14 lg:h-14 2xl:w-16 2xl:h-16'>
+    <Image
+      src='/assets/images/logo.png'
+      alt='logo'
+      width={60} 
+      height={60} 
+      sizes="(max-width: 640px) 2.5rem, (max-width: 768px) 3rem, (max-width: 1024px) 3.5rem, 4rem"
+      className='rounded-md'
+    />
+  </div>
+  <p className='logo_text'>Tripoteka</p>
+</Link>
 
       {/* Desktop Navigation */}
       <div className='sm:flex hidden'>
