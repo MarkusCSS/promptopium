@@ -1,4 +1,8 @@
-import mongoose from "mongoose";
+// utils/database.js
+import mongoose from 'mongoose';
+import User from '@models/user'; // Učitajte modele
+import Prompt from '@models/prompt';
+import Comment from '@models/comment';
 
 mongoose.set('strictPopulate', false);
 let isConnected = false;
@@ -17,7 +21,6 @@ export const connectToDB = async () => {
       serverSelectionTimeoutMS: 5000,
       socketTimeoutMS: 45000,
       family: 4,
-      // Opcije useNewUrlParser i useUnifiedTopology su podrazumevano uključene
     });
     isConnected = true;
     console.log('MongoDB connected');
