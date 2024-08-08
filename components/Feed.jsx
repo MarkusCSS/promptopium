@@ -6,8 +6,9 @@ const Feed = ({ initialPosts }) => {
 };
 
 export async function getServerSideProps() {
+  const apiUrl = process.env.API_URL; // Uzmi URL iz environment varijable
   try {
-    const response = await fetch('https://tvoja-api.com/api/prompt');
+    const response = await fetch(`${apiUrl}/api/prompt`);
     const initialPosts = await response.json();
 
     return { props: { initialPosts } };
