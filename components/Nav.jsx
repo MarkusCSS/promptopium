@@ -32,13 +32,13 @@ const Nav = () => {
   return (
     <nav className='flex-between w-full mb-16 pt-3'>
       <Link href='/' className='flex gap-2 rounded-md items-center justify-center'>
-        <div className='flex items-center justify-center relative w-16 h-16  lg:w-18 lg:h-18 2xl:w-20 2xl:h-20'>
+        <div className='flex items-center justify-center relative w-14 h-14  lg:w-18 lg:h-18 2xl:w-20 2xl:h-20'>
           <Image
             src='/assets/images/logo.png'
             alt='logo'
             width={60} 
             height={60} 
-            sizes="(max-width: 640px) 2.5rem, (max-width: 768px) 3rem, (max-width: 1024px) 3.5rem, 4rem"
+            sizes="(max-width: 640px) 3rem, (max-width: 768px) 3.2rem, (max-width: 1024px) 3.5rem, 4rem"
             style={{ width: 'auto', height: 'auto' }}
             className='rounded-md'
           />
