@@ -32,7 +32,7 @@ const Nav = () => {
   return (
     <nav className='flex-between w-full mb-16 pt-3'>
       <Link href='/' className='flex gap-2 rounded-md items-center justify-center'>
-        <div className='flex items-center justify-center relative w-14 h-14 md:w-16 md:h-16 lg:w-18 lg:h-18 2xl:w-20 2xl:h-20'>
+        <div className='flex items-center justify-center relative w-16 h-16  lg:w-18 lg:h-18 2xl:w-20 2xl:h-20'>
           <Image
             src='/assets/images/logo.png'
             alt='logo'
