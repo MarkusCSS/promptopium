@@ -7,6 +7,8 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
   const [showReplies, setShowReplies] = useState(false);
   const [showAddCommentForm, setShowAddCommentForm] = useState(false);
   const [newComment, setNewComment] = useState('');
+  const [isLiked, setIsLiked] = useState(comment.isLiked || false); // Dodajemo stanje za praćenje lajka
+  const [likeCount, setLikeCount] = useState(comment.likeCount || 0); // Dodajemo stanje za broj lajkova
 
   const handleToggleReplies = () => {
     setShowReplies(!showReplies);
@@ -24,6 +26,14 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
     } else {
       console.error('handleAddComment is not a function!');
     }
+  };
+
+  const handleLike = async () => {
+    setIsLiked(!isLiked);
+    setLikeCount(likeCount + (isLiked ? -1 : 1)); // Ažuriramo broj lajkova
+
+    // Ovde možeš dodati logiku za slanje lajka na backend
+    // await handleLikeComment(comment._id, !isLiked); // Primer funkcije za slanje lajka
   };
 
   return (
@@ -82,10 +92,12 @@ const CommentCard = ({ comment, handleReply, handleEdit, handleDelete, handleAdd
             <CommentCard key={reply._id} comment={reply} handleReply={handleReply} handleEdit={handleEdit} handleDelete={handleDelete} handleAddComment={handleAddComment} />
           ))}
         </div>
-        
       )}
-      <p className='font-inter text-sm text-right mb-4 green_gradient cursor-pointer' onClick={handleAddCommentClick}>
-        Like
+      <p
+        className={`font-inter text-sm text-right mb-4 cursor-pointer ${isLiked ? 'text-blue-500' : 'text-gray-500'}`}
+        onClick={handleLike}
+      >
+        {isLiked ? 'Liked' : 'Like'} {likeCount}
       </p>
     </div>
   );
